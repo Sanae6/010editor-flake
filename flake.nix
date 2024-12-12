@@ -59,10 +59,22 @@
 
         # Don't use wrapped QT plugins since they are already included in the
         # package, else the program crashes because of the conflict.
-        wrapProgram $out/010editor --unset QT_PLUGIN_PATH --set QT_QPA_PLATFORM=xcb
+        # wrapProgram $out/010editor --unset QT_PLUGIN_PATH --set QT_QPA_PLATFORM xcb
 
         mkdir $out/bin
-        ln -s $out/010editor $out/bin/010editor
+        # ln -s $out/.010editor $out/bin/.010editor-wrapped
+        echo "#! ${pkgs.nushell}/bin/nu
+        def --wrapped main [...rest] {
+          try {
+            hide-env QT_PLUGIN_PATH
+          }
+          try {
+            hide-env QML_IMPORT_PATH
+          }
+          QT_QPA_PLATFORM=xcb exec (\$env.FILE_PWD + "/../010editor") ...\$rest
+        }
+        " > 010editor.nu
+        install -m 775 -D 010editor.nu $out/bin/010editor
 
         # Copy the icon and generated desktop file
         install -D 010_icon_128x128.png -t $out/share/icons/hicolor/128x128/apps/
@@ -95,8 +107,6 @@
       dontBuild = true;
 
       outputs = ["out"];
-
-      meta.mainProgram = "010editor";
     };
   in
     eachSystem [ system.x86_64-linux ] (system: {
