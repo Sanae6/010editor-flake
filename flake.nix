@@ -9,10 +9,10 @@
       pkgs = nixpkgs.legacyPackages."${system}";
     in with pkgs; stdenv.mkDerivation rec {
       name = "010editor";
-      version = "15.0.1";
+      version = "15.0.2";
       src = fetchurl {
         url = "https://download.sweetscape.com/010EditorLinux64Installer${version}.tar.gz";
-        hash = "sha256-MRMAxJ8p9U88hxOJ7CjCAgRhviSy3dSaevGC2MiMTq4=";
+        hash = "sha256-hypSle1xwO7QELKs9p5S9SrMfbPzJh1izKptlOVo7MU=";
       };
 
       buildInputs = with libsForQt5.qt5; [
@@ -41,7 +41,7 @@
       #   ls -la $sourceRoot 2> /dev/null
       #   ls -la . 2> /dev/null
       #   echo $PWD 2> /dev/null
-        
+
       #   #exit 1
       #   patchelf --replace-needed libquazip.so.1 libquazip1-qt5.so 010editor
       # '';
@@ -86,7 +86,7 @@
         "--set QT_QPA_PLATFORM xcb"
         "--unset QT_PLUGIN_PATH"
       ];
-      
+
       desktopItem = makeDesktopItem {
         name = "010editor";
         exec = "010editor %f";
