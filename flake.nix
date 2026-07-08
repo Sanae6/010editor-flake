@@ -15,7 +15,7 @@
         hash = "sha256-hypSle1xwO7QELKs9p5S9SrMfbPzJh1izKptlOVo7MU=";
       };
 
-      buildInputs = with libsForQt5.qt5; [
+      buildInputs = with qt5; [
         qtbase
         qttools
         qtx11extras
@@ -23,7 +23,7 @@
         libgcc
         cups
       ];
-      nativeBuildInputs = with libsForQt5.qt5; [
+      nativeBuildInputs = with qt5; [
         autoPatchelfHook
         wrapQtAppsHook
         makeWrapper
